@@ -10,23 +10,30 @@
 
 </head>
 <body>
-    <header class="bg-light text-black border border-1 border-1">
+    <header class="bg-light text-black border border-1 border-1 bg-dark text-white">
         <div class="container-fluid d-flex justify-content-between align-items-center py-3">
-            <div class="d-flex ms-4" >
-                <span style="font-size: large; font-weight: bold;" class="me-1">Блог &#8470; 415</span>
-                <a href="/">
-                    <button class="btn btn-light me-3" id="PacientBtn">Пациенты</button>
-                </a>
-                <a href="/Authors">
-                    <button class="btn btn-light me-3" id="consulBtn">Консультации</button>
-                </a>
-                <a href="/Community">
-                    <button class="btn btn-light me-3" id="statisticBtn">Отчет и статистика</button>
-                </a>
+            <div class="d-flex ms-1" >
+                <div class="d-flex align-items-center">
+                    <span class="me-5 ms-2 fs-3">&#9760;</span>
+                    <span class="ms-5 fs-5 fw-bold">Try not to<br>DIE</span>
+                    <div class="ms-5">
+                        <a href="/">
+                            <button class="btn me-3 text-white" id="PacientBtn">Пациенты</button>
+                        </a>
+                        <a href="/">
+                            <button class="btn me-3 text-white" id="consulBtn">Консультации</button>
+                        </a>
+                        <a href="/">
+                            <button class="btn me-3 text-white" id="statisticBtn">Отчет и статистика</button>
+                        </a>
+                    </div>
+                    
+                </div>
+                
             </div>
             <div>
                 <div class="dropdown" id="headList">
-                    <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn text-white dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         Пользователь не авторизирован
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -40,7 +47,7 @@
                     </ul>
                 </div>
                 <a href="/login">
-                    <button class="btn btn-light me-4" id="enterBtn">Вход</button>
+                    <button class="btn text-white me-4 " id="enterBtn">Вход</button>
                 </a>
             </div>
         </div>
