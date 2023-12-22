@@ -1,3 +1,6 @@
+import { profileURL } from "/js-files/RequestURL.js";
+import { fetchGetProfile } from "/js-files/fetchFunctions.js";
+
 const enterBtn=document.getElementById('enterBtn');
 const headList=document.getElementById('headList');
 const headListBtn=document.getElementById('dropdownMenuButton');
@@ -9,15 +12,15 @@ if(token){
     headListBtn.style.display='block'
     enterBtn.style.display='none'
 
-    // const profileDataEmail=await getProfile(token);
+    const profileDataName=await fetchGetProfile(token,profileURL);
 
-    // if (!profileDataEmail){
-    //     localStorage.clear();
-    //     window.location.href='/login'
-    // }
-    // else{
-    //     headListBtn.textContent = profileDataEmail.email;
-    // }
+    if (!profileDataName){
+        localStorage.clear();
+        window.location.href='/login'
+    }
+    else{
+        headListBtn.textContent = profileDataName.name;
+    }
 
 }
 else{

@@ -37,3 +37,30 @@ export async function fetchSpecials(specialsURL){
     })
     return response.json()
 }
+export async function fetchGetProfile(token, profileURL){
+    const response= await fetch(profileURL, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+    });
+    if(response.ok){
+        return await response.json();
+    }
+    else{
+        response.status;
+    }
+}
+export async function fetchEditProfile(EditData, token, profileURL){
+    const response= await fetch(profileURL, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(EditData)
+    });
+    return response.status;
+}
+
