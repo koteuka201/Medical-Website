@@ -1,5 +1,5 @@
-import { loginURL } from "./RequestURL.js";
-import { fetchLogin } from "./fetchFunctions.js";
+import { loginURL } from "/js-files/RequestURL.js";
+import { fetchLogin } from "/js-files/fetchFunctions.js";
 
 const headListBtn=document.getElementById('dropdownMenuButton');
 
