@@ -39,7 +39,7 @@ switch(pathName){
         })
         break
     case '/Register':
-        response = await fetch('/registration.html');
+        response = await fetch('/html-files/Registration.html');
         responseT=await response.text()
         contentCard = document.getElementById('ContentCard');
         contentCard.innerHTML = responseT;
