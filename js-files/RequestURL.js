@@ -1,5 +1,6 @@
 const domen='https://mis-api.kreosoft.space/api/'
 export const registerDocURL=domen+'doctor/register'
 export const loginURL=domen+'doctor/login'
-export const logoutURL='doctor/logout'
-export const profileURL='doctor/profile'
+export const logoutURL=domen+'doctor/logout'
+export const profileURL=domen+'doctor/profile'
+export const specialsURL=domen+'dictionary/speciality?page=1&size=5'

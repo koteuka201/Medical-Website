@@ -9,15 +9,15 @@ if(token){
     headListBtn.style.display='block'
     enterBtn.style.display='none'
 
-    const profileDataEmail=await getProfile(token);
+    // const profileDataEmail=await getProfile(token);
 
-    if (!profileDataEmail){
-        localStorage.clear();
-        window.location.href='/login'
-    }
-    else{
-        headListBtn.textContent = profileDataEmail.email;
-    }
+    // if (!profileDataEmail){
+    //     localStorage.clear();
+    //     window.location.href='/login'
+    // }
+    // else{
+    //     headListBtn.textContent = profileDataEmail.email;
+    // }
 
 }
 else{

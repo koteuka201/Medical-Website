@@ -36,7 +36,7 @@ loginBtn.addEventListener('click', async function(event){
             localStorage.setItem('token', token);
 
             headListBtn.textContent = email
-            window.location.href='/'
+            //window.location.href='/'
 
 
         }
