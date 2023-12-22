@@ -24,7 +24,7 @@ switch(pathName){
         });
         break
     case '/Profile':
-        response = await fetch('/ProfilePage.html');
+        response = await fetch('/html-files/Profile.html');
         responseT=await response.text()
         contentCard = document.getElementById('ContentCard');
         contentCard.innerHTML = responseT;
