@@ -53,6 +53,21 @@ switch(pathName){
             script.parentNode.replaceChild(newScript, script)
         })
         break
+    case '/patients':
+        response = await fetch('/html-files/pacientFeed.html');
+        responseT=await response.text()
+        contentCard = document.getElementById('ContentCard');
+        contentCard.innerHTML = responseT;
+
+        contentCard.querySelectorAll('script').forEach(script => {
+            const newScript = document.createElement("script")
+            Array.from(script.attributes).forEach(attr => {
+                newScript.setAttribute(attr.name, attr.value)
+            })
+            newScript.appendChild(document.createTextNode(script.innerHTML))
+            script.parentNode.replaceChild(newScript, script)
+        })
+        break
     case '/logout':
         await fetchLogout(token, logoutURL)
         localStorage.clear()
