@@ -1,5 +1,5 @@
 import { profileURL, patientList } from "/js-files/RequestURL.js";
-import { fetchPatientsList } from "/js-files/fetchFunctions.js";
+import { fetchPatientsList,fetchRegPatient } from "/js-files/fetchFunctions.js";
 
 const Posts=document.getElementById('Posts')
 const searchBtn=document.getElementById('searchBtn')
@@ -8,6 +8,15 @@ const sizeCount=document.getElementById('sizeCount')
 
 const nextPageBtn=document.getElementById('nextPageBtn')
 const prevPageBtn=document.getElementById('prevPageBtn')
+
+const nameRegError=document.getElementById('nameRegError')
+const dateRegError=document.getElementById('dateRegError')
+
+
+const regNewPacBtn=document.getElementById('regNewPacBtn')
+let flagName=false
+let flagbirth=false
+
 
 nextPageBtn.style.display='block'
 prevPageBtn.style.display='block'
@@ -36,6 +45,49 @@ document.getElementById('onlyMine').checked = onlyMine === 'true';
 let flag=false
 size=parseInt(sizeCount.value)
 await ShowPost(page,size)
+
+regNewPacBtn.addEventListener('click', async function(event){
+    const token=localStorage.getItem('token')
+    const name=document.getElementById('patientRegName').value
+    const gender=document.getElementById('genderSelect').value
+    const birthday=document.getElementById('dateOfBirth').value
+
+    const currentDate = new Date();
+
+    if(name==''){
+        nameRegError.style.display='block'
+        flagName=true
+    }
+    else{
+        flagName=false
+        nameRegError.style.display='none'
+
+    }
+
+    if(birthday=='' || new Date(birthday) > currentDate){
+        dateRegError.style.display='block'
+        flagbirth=true
+    }
+    else{
+        flagbirth=false
+        dateRegError.style.display='none'
+
+    }
+
+    const regPacData={
+        name,
+        gender,
+        birthday
+    }
+    if(!flagbirth && !flagName){
+        const responseReg=await fetchRegPatient(token, patientList, regPacData)
+        console.log(responseReg)
+        if(responseReg==200){
+            location.reload()
+        }
+    }
+    
+})
 
 nextPageBtn.addEventListener('click', async function(event){
     if(page<totalPages){

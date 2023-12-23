@@ -20,8 +20,10 @@
                     <div class="modal-body">
                         <span class="fw-bold fs-3">Регистрация пациента</span>
                         <div class="mb-3">
-                            <label for="patientName" class="form-label">ФИО</label>
-                            <input type="text" class="form-control" id="patientName" placeholder="Иванов Иван Иванович">
+                            <label for="patientRegName" class="form-label">ФИО</label>
+                            <input type="text" class="form-control" id="patientRegName" placeholder="Иванов Иван Иванович">
+                            <small id="nameRegError" class="text-danger" style="display: none;">Поле не должно быть пустым</small>
+
                         </div>
                         <div class="row mb-3">
                             <div class="col">
@@ -34,9 +36,11 @@
                             <div class="col">
                                 <label for="dateOfBirth" class="form-label">Дата рождения</label>
                                 <input type="date" class="form-control" id="dateOfBirth">
+                                <small id="dateRegError" class="text-danger" style="display: none;">Дата рождения не может превышать текущей даты или быть пустой</small>
+
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary col-12">Зарегистрировать</button>
+                        <button type="button" class="btn btn-primary col-12" id="regNewPacBtn">Зарегистрировать</button>
                     </div>
                 </div>
             </div>

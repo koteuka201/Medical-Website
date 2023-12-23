@@ -83,3 +83,14 @@ export async function fetchPatientsList(token, patientURL){
     });
     return response.json()
 }
+export async function fetchRegPatient(token, patientURL,regPacData){
+    const response= await fetch(patientURL, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(regPacData)
+    });
+    return response.status
+}
