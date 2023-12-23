@@ -12,9 +12,35 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between">
             <span class="fw-bold fs-3">Пациенты</span>
-            <button type="button" id="newPacBtn" class="btn btn-primary align-content-end"><i class="bi bi-person-fill-add fs-5"></i> Регистрация нового пациента</button>
+            <button type="button" id="newPacBtn" class="btn btn-primary align-content-end" data-bs-toggle="modal" data-bs-target="#registrationModal"><i class="bi bi-person-fill-add fs-5"></i> Регистрация нового пациента</button>
         </div>
-        
+        <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <span class="fw-bold fs-3">Регистрация пациента</span>
+                        <div class="mb-3">
+                            <label for="patientName" class="form-label">ФИО</label>
+                            <input type="text" class="form-control" id="patientName" placeholder="Иванов Иван Иванович">
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="genderSelect" class="form-label">Пол</label>
+                                <select class="form-select" id="genderSelect">
+                                    <option value="male">Мужской</option>
+                                    <option value="female">Женский</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for="dateOfBirth" class="form-label">Дата рождения</label>
+                                <input type="date" class="form-control" id="dateOfBirth">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary col-12">Зарегистрировать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card mt-3 bg-body-secondary">
             <div class="card-body">
                 <div class="p-2">
