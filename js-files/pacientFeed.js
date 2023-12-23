@@ -33,16 +33,30 @@ document.getElementById('scheduledVisits').checked = scheduledVisits === 'true';
 const onlyMine = urlParams.get('onlyMine');
 document.getElementById('onlyMine').checked = onlyMine === 'true';
 
-
+let flag=false
 size=parseInt(sizeCount.value)
 await ShowPost(page,size)
+
+nextPageBtn.addEventListener('click', async function(event){
+    if(page<totalPages){
+        page+=1
+        await ShowPost(page,size)
+    }
+    
+})
+prevPageBtn.addEventListener('click', async function(event){
+    if(page>1){
+        page-=1
+        await ShowPost(page,size)
+    }
+    
+})
 
 searchBtn.addEventListener('click', async function(event){
     await ShowPost(page,size)
 })
 async function ShowPost(page, size){
     size=parseInt(sizeCount.value)
-    console.log(size)
     const patientName=document.getElementById('patientName').value
     const conclusions=document.getElementById('conclusions').value
     const scheduledVisits=document.getElementById('scheduledVisits').checked
@@ -60,7 +74,6 @@ async function ShowPost(page, size){
         query.append('conclusions',conclusions)
     }
     if(sortBy!==""){
-        console.log(sortBy)
         query.append('sorting',sortBy)
     }
     if(scheduledVisits!==undefined){
@@ -71,9 +84,15 @@ async function ShowPost(page, size){
     }
     
     if (page !== undefined) {
-        query.append('page', page);
-    }
+        // if (page>totalPages && flag){
+        //     query.append('page', totalPages)
+        // }
+        // else{
+        //     query.append('page', page)
+        // }
+        query.append('page', page)
 
+    }
     if(size!==undefined){
         query.append('size', size);
     }
@@ -82,12 +101,9 @@ async function ShowPost(page, size){
     const Token=localStorage.getItem('token');
 
     Posts.innerHTML = '';
-    console.log(Url)
     const responsePatients=await fetchPatientsList(Token, Url)
     if(window.location.href!=('http://localhost/patients'+`?${query.toString()}`)){
         window.location.href='/patients'+`?${query.toString()}`
-        totalPages=responsePatients.pagination.count
-        await AddPosts(responsePatients);
     }
     else{
         totalPages=responsePatients.pagination.count
@@ -113,8 +129,6 @@ async function AddPosts(response){
 
 
         patientElement.innerHTML=patientToElement
-        console.log(patientToElement)
-        console.log(patientElement)
 
         patientElement.querySelector('#name').textContent+=''+patient.name
         patientElement.querySelector('#gender').textContent+=''+gender
