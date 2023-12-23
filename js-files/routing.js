@@ -1,5 +1,5 @@
 import { logoutURL } from "/js-files/RequestURL.js";
-
+import { fetchLogout } from "/js-files/fetchFunctions.js";
 let response;
 let responseT;
 let contentCard;
@@ -54,7 +54,7 @@ switch(pathName){
         })
         break
     case '/logout':
-        await GetLogout(token)
+        await fetchLogout(token, logoutURL)
         localStorage.clear()
         window.location.href='/login'
         break
@@ -78,13 +78,4 @@ switch(pathName){
 
     break
 }
-async function GetLogout(token){
-    const response= await fetch(logoutURL, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`,          
-            'Content-Type': 'application/json',
-        },
-    });
-    return response.status
-}
+
