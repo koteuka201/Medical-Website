@@ -16,8 +16,29 @@ const token=localStorage.getItem('token')
 const sizeNum=sizeCount.value
 let page=1
 let size;
+
+const urlParams = new URLSearchParams(window.location.search)
+page=parseInt(urlParams.get('page')) || 1
+
+sizeCount.value=urlParams.get('size') || '5'
+
+let totalPages=1
+
+document.getElementById('patientName').value = urlParams.get('name') || '';
+document.getElementById('conclusions').value = urlParams.get('conclusions') || '';
+document.getElementById('sortBy').value = urlParams.get('sorting') || '';
+
+const scheduledVisits = urlParams.get('scheduledVisits');
+document.getElementById('scheduledVisits').checked = scheduledVisits === 'true';
+const onlyMine = urlParams.get('onlyMine');
+document.getElementById('onlyMine').checked = onlyMine === 'true';
+
+
+size=parseInt(sizeCount.value)
+await ShowPost(page,size)
+
 searchBtn.addEventListener('click', async function(event){
-    ShowPost(page,size)
+    await ShowPost(page,size)
 })
 async function ShowPost(page, size){
     size=parseInt(sizeCount.value)
@@ -56,7 +77,6 @@ async function ShowPost(page, size){
     if(size!==undefined){
         query.append('size', size);
     }
-    //console.log(query.toString())
     const Url = `${urlToFetch}?${query.toString()}`;
 
     const Token=localStorage.getItem('token');
@@ -64,27 +84,45 @@ async function ShowPost(page, size){
     Posts.innerHTML = '';
     console.log(Url)
     const responsePatients=await fetchPatientsList(Token, Url)
-    
-    console.log(responsePatients)
+    if(window.location.href!=('http://localhost/patients'+`?${query.toString()}`)){
+        window.location.href='/patients'+`?${query.toString()}`
+        totalPages=responsePatients.pagination.count
+        await AddPosts(responsePatients);
+    }
+    else{
+        totalPages=responsePatients.pagination.count
+        await AddPosts(responsePatients);
+
+    }
 }
 async function AddPosts(response){
+    
 
+    for(let i=0; i<response.patients.length;i++){
+        const patient=response.patients[i]
+        const responsePatient=await fetch('/html-files/pacientCard.html')
+        const patientToElement=await responsePatient.text()
 
-    response.patients.forEach(patient=>{
         const patientElement = document.createElement('div');
 
-        const inputDate = patient.createTime.substring(0, 10);
+        const inputDate = patient.birthday.substring(0, 10);
         const [year, month, day] = inputDate.split('-');
-        const createDate=`${day}.${month}.${year}`;
+        const birthDate=`${day}.${month}.${year}`;
 
-        const createtime = patient.createTime.substring(11, 16);
+        const gender=(patient.gender==="Male"? "Мужской" : "Женский")
 
-        patientElement.innerHTML = `
-            
-        `;
+
+        patientElement.innerHTML=patientToElement
+        console.log(patientToElement)
+        console.log(patientElement)
+
+        patientElement.querySelector('#name').textContent+=''+patient.name
+        patientElement.querySelector('#gender').textContent+=''+gender
+        patientElement.querySelector('#birthDate').textContent+=''+birthDate
+
 
         Posts.appendChild(patientElement);
-    });
+    }
 }
 
 
