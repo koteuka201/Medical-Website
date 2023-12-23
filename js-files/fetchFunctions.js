@@ -63,4 +63,13 @@ export async function fetchEditProfile(EditData, token, profileURL){
     });
     return response.status;
 }
-
+export async function fetchLogout(token, logoutURL){
+    const response= await fetch(logoutURL, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.status
+}

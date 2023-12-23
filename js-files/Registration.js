@@ -93,7 +93,7 @@ submitButton.addEventListener('click', async function(event){
             console.log('token',token);
             localStorage.setItem('token', token);
 
-            //window.location.href='/'
+            window.location.href='/Profile'
         }
 
     }

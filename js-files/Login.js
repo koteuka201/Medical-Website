@@ -1,6 +1,11 @@
 import { loginURL } from "/js-files/RequestURL.js";
 import { fetchLogin } from "/js-files/fetchFunctions.js";
 
+const token=localStorage.getItem('token')
+if(token){
+    window.location.href='/Profile'
+}
+
 const headListBtn=document.getElementById('dropdownMenuButton');
 
 const EmptyLoginError = document.getElementById('EmptyLoginError');
@@ -35,8 +40,8 @@ loginBtn.addEventListener('click', async function(event){
 
             localStorage.setItem('token', token);
 
-            headListBtn.textContent = email
-            //window.location.href='/'
+            //headListBtn.textContent = email
+            window.location.href='/Profile'
 
 
         }
