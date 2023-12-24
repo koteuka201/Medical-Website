@@ -104,3 +104,13 @@ export async function fetchPatientCard(token, patientURL){
     });
     return response.json()
 }
+export async function fetchPatientInspect(token, patientURL){
+    const response= await fetch(patientURL, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.json()
+}
