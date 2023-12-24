@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script></head>
+
+</head>
+<body>
+    <div class="container mt-4">
+        <div class=" ms-2 me-2 d-flex justify-content-between ">
+            <h2>Медицинская карта пациента</h2>
+            <button type="button" class="btn btn-primary">Добавить осмотр</button>
+        </div>
+        <div class="row mt-3 ms-1 me-1">
+            <div class="col-md-6 fs-3 fw-bold" id="name">
+                
+            </div>
+            <div class="col-md-6 d-flex justify-content-end align-items-end" id="birthDate">
+
+            </div>
+        </div>
+        <div class="card mt-3 bg-light">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="mkbSelect" class="form-label">Селект МКБ</label>
+                        <select class="form-select" id="mkbSelect">
+                            <option value="">Выберите заключение</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-end">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="grouping" autocomplete="off" id="groupBy">
+                            <label class="form-check-label" for="groupBy">Сгруппировать по повторным</label>
+                        </div>
+                        <div class="form-check form-check-inline ms-3">
+                            <input class="form-check-input" type="radio" name="grouping" id="showAll" autocomplete="on" checked>
+                            <label class="form-check-label" for="showAll">Показать все</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="visitsPerPage" class="form-label">Число осмотров на странице</label>
+                        <div class="d-flex align-items-center">
+                            <select class="form-select me-3" id="visitsPerPage">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5"selected>5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-4">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Поиск&nbsp;&nbsp;&nbsp;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<!-- <script type="module" src="/js-files/routing.js"></script> -->
+<script type="module" src="/js-files/MedicalCard.js"></script>
+</body>
+</html>
