@@ -136,13 +136,14 @@ async function ShowPost(page, size){
     }
     
     if (page !== undefined) {
-        // if (page>totalPages && flag){
-        //     query.append('page', totalPages)
-        // }
-        // else{
-        //     query.append('page', page)
-        // }
-        query.append('page', page)
+        const countPage=localStorage.getItem('countPage')
+        if (page>countPage && countPage!==null){
+            query.append('page', countPage)
+            console.log('page>totalPages')
+        }
+        else{
+            query.append('page', page)
+        }
 
     }
     if(size!==undefined){
@@ -159,6 +160,7 @@ async function ShowPost(page, size){
     }
     else{
         totalPages=responsePatients.pagination.count
+        localStorage.setItem('countPage',totalPages)
         await AddPosts(responsePatients);
 
     }
