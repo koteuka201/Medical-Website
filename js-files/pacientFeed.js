@@ -173,6 +173,8 @@ async function AddPosts(response){
         const responsePatient=await fetch('/html-files/pacientCard.html')
         const patientToElement=await responsePatient.text()
 
+        const patientId=patient.id
+        
         const patientElement = document.createElement('div');
 
         const inputDate = patient.birthday.substring(0, 10);
@@ -181,13 +183,21 @@ async function AddPosts(response){
 
         const gender=(patient.gender==="Male"? "Мужской" : "Женский")
 
-
         patientElement.innerHTML=patientToElement
 
-        patientElement.querySelector('#name').textContent+=''+patient.name
+        const Name=document.createElement('a')
+        Name.textContent=patient.name
+        Name.href='/patient'+`?${patientId}`
+
+        Name.style.textDecoration = 'none'
+        Name.style.color = 'inherit'
+
+        const nameElement=patientElement.querySelector('#name')
+        nameElement.innerHTML = ''
+        nameElement.appendChild(Name)
+        
         patientElement.querySelector('#gender').textContent+=''+gender
         patientElement.querySelector('#birthDate').textContent+=''+birthDate
-
 
         Posts.appendChild(patientElement);
     }
