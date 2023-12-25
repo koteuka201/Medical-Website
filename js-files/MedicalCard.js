@@ -52,20 +52,30 @@ const urlToInsp=patientList+'/'+patientId+'/inspections?grouped=false&page=1&siz
 const urlToCheck='http://localhost/patient'+`?${patientId}`
 const inspects=document.getElementById('inspects')
 
+const urlParams = new URLSearchParams(window.location.search)
+
+page=parseInt(urlParams.get('page')) || 1
+visitsPerPage.value=urlParams.get('size') || '5'
+
+document.getElementById('groupBy')
+document.getElementById('showAll')
+const grouped = urlParams.get('showAll')
+
+size=parseInt(visitsPerPage.value)
 
 showInsp(page,size)
 
 nextPageBtn.addEventListener('click', async function(event){
     if(page<totalPages){
         page+=1
-        await ShowPost(page,size)
+        await showInsp(page,size)
     }
     
 })
 prevPageBtn.addEventListener('click', async function(event){
     if(page>1){
         page-=1
-        await ShowPost(page,size)
+        await showInsp(page,size)
     }
     
 })
@@ -104,7 +114,12 @@ async function showInsp(page, size){
     if(window.location.href!=(wholeUrl)){
         window.location.href='/patient'+`?${patientId}`+'*inspections*'+`${query.toString()}`
     }
-    await AddInsp(Inspects)
+    else{
+
+        totalPages=Inspects.pagination.count
+        await AddInsp(Inspects)
+
+    }
 
 }
 
