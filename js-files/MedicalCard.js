@@ -1,5 +1,5 @@
-import { patientList } from "/js-files/RequestURL.js";
-import { fetchPatientCard, fetchPatientInspect } from "/js-files/fetchFunctions.js";
+import { patientList, diagList } from "/js-files/RequestURL.js";
+import { fetchPatientCard, fetchPatientInspect, fetchDiagnosis } from "/js-files/fetchFunctions.js";
 
 const url=window.location.href
 const sign = url.indexOf('?')
@@ -13,6 +13,7 @@ const birthDate=document.getElementById('birthDate')
 const addInspBtn=document.getElementById('addInspBtn')
 const visitsPerPage=document.getElementById('visitsPerPage')
 const searchBtn=document.getElementById('searchBtn')
+const mkbSelect=document.getElementById('mkbSelect')
 
 const nextPageBtn=document.getElementById('nextPageBtn')
 const prevPageBtn=document.getElementById('prevPageBtn')
@@ -23,6 +24,7 @@ prevPageBtn.style.display='block'
 const token=localStorage.getItem('token')
 
 const response=await fetchPatientCard(token,urlToRequest)
+const responseDiag=await fetchDiagnosis(diagList)
 
 const inputDate = response.birthday.substring(0, 10);
 const [year, month, day] = inputDate.split('-');
@@ -53,9 +55,12 @@ const urlToCheck='http://localhost/patient'+`?${patientId}`
 const inspects=document.getElementById('inspects')
 
 const urlParams = new URLSearchParams(window.location.search)
+const icdRoots = urlParams.get('icdRoots')
 
 page=parseInt(urlParams.get('page')) || 1
 visitsPerPage.value=urlParams.get('size') || '5'
+
+document.getElementById('mkbSelect').value = icdRoots
 
 const grouped = urlParams.get('grouped');
 if(grouped=='true'){
@@ -67,8 +72,23 @@ else{
 
 }
 
-
 size=parseInt(visitsPerPage.value)
+
+mkbSelect.innerHTML=''
+
+const chooseOption = document.createElement('option');
+chooseOption.value = '';
+chooseOption.text = 'Выбрать';
+mkbSelect.appendChild(chooseOption);
+
+responseDiag.forEach(diag => {
+    const option=document.createElement('option')
+
+    option.value=diag.id
+    option.text=diag.name
+
+    mkbSelect.appendChild(option)
+});
 
 showInsp(page,size)
 
@@ -95,7 +115,8 @@ async function showInsp(page, size){
     size=parseInt(visitsPerPage.value)
     const showAll=document.getElementById('showAll').checked
     const groupBy=document.getElementById('groupBy').checked
-    
+    const icdRoots=document.getElementById('mkbSelect').value
+
     const UrlToInsp=patientList+'/'+patientId+'/inspections'
     const query = new URLSearchParams()
     if(showAll=== true){
@@ -103,6 +124,9 @@ async function showInsp(page, size){
     }
     else{
         query.append('grouped',true)
+    }
+    if(icdRoots!==''){
+        query.append('icdRoots', icdRoots)
     }
     if (page !== undefined) {
         query.append('page', page)

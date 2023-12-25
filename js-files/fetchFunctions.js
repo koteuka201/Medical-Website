@@ -114,3 +114,12 @@ export async function fetchPatientInspect(token, patientURL){
     });
     return response.json()
 }
+export async function fetchDiagnosis(diagUrl){
+    const response= await fetch(diagUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.json()
+}
