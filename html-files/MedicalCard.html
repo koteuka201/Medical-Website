@@ -12,7 +12,7 @@
     <div class="container mt-4">
         <div class=" ms-2 me-2 d-flex justify-content-between ">
             <h2>Медицинская карта пациента</h2>
-            <button type="button" class="btn btn-primary">Добавить осмотр</button>
+            <button type="button" class="btn btn-primary" id="addInspBtn">Добавить осмотр</button>
         </div>
         <div class="row mt-3 ms-1 me-1">
             <div class="col-md-6 fs-3 fw-bold" id="name">
@@ -26,9 +26,9 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="mkbSelect" class="form-label">Селект МКБ</label>
+                        <label for="mkbSelect" class="form-label">МКБ</label>
                         <select class="form-select" id="mkbSelect">
-                            <option value="">Выберите заключение</option>
+                            <option value="">Выбрать</option>
                         </select>
                     </div>
                     <div class="col-md-6 d-flex align-items-end">
@@ -37,8 +37,8 @@
                             <label class="form-check-label" for="groupBy">Сгруппировать по повторным</label>
                         </div>
                         <div class="form-check form-check-inline ms-3">
-                            <input class="form-check-input" type="radio" name="grouping" id="showAll" autocomplete="on" checked>
-                            <label class="form-check-label" for="showAll">Показать все</label>
+                            <input class="form-check-input" type="radio" name="grouping" autocomplete="on" checked id="showAll">
+                            <label class="form-check-label" for="showAll" >Показать все</label>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-md-6 mt-4">
                         <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Поиск&nbsp;&nbsp;&nbsp;</button>
+                            <button id="searchBtn" type="button" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Поиск&nbsp;&nbsp;&nbsp;</button>
                         </div>
                     </div>
                 </div>
