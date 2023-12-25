@@ -57,9 +57,16 @@ const urlParams = new URLSearchParams(window.location.search)
 page=parseInt(urlParams.get('page')) || 1
 visitsPerPage.value=urlParams.get('size') || '5'
 
-document.getElementById('groupBy')
-document.getElementById('showAll')
-const grouped = urlParams.get('showAll')
+const grouped = urlParams.get('grouped');
+if(grouped=='true'){
+    document.getElementById('groupBy').checked = true;
+
+}
+else{
+    document.getElementById('showAll').checked = true;
+
+}
+
 
 size=parseInt(visitsPerPage.value)
 
@@ -91,7 +98,7 @@ async function showInsp(page, size){
     
     const UrlToInsp=patientList+'/'+patientId+'/inspections'
     const query = new URLSearchParams()
-    if(showAll== true){
+    if(showAll=== true){
         query.append('grouped',false)
     }
     else{
@@ -110,9 +117,9 @@ async function showInsp(page, size){
     inspects.innerHTML=''
 
     const Inspects=await fetchPatientInspect(token, url)
-    const wholeUrl=urlToCheck+'*inspections*'+`${query.toString()}`
+    const wholeUrl=urlToCheck+'&inspections&'+`${query.toString()}`
     if(window.location.href!=(wholeUrl)){
-        window.location.href='/patient'+`?${patientId}`+'*inspections*'+`${query.toString()}`
+        window.location.href='/patient'+`?${patientId}`+'&inspections&'+`${query.toString()}`
     }
     else{
 
