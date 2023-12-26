@@ -94,3 +94,32 @@ export async function fetchRegPatient(token, patientURL,regPacData){
     });
     return response.status
 }
+export async function fetchPatientCard(token, patientURL){
+    const response= await fetch(patientURL, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.json()
+}
+export async function fetchPatientInspect(token, patientURL){
+    const response= await fetch(patientURL, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.json()
+}
+export async function fetchDiagnosis(diagUrl){
+    const response= await fetch(diagUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.json()
+}

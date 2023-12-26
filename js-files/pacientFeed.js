@@ -1,7 +1,7 @@
 import { profileURL, patientList } from "/js-files/RequestURL.js";
 import { fetchPatientsList,fetchRegPatient } from "/js-files/fetchFunctions.js";
 
-const Posts=document.getElementById('Posts')
+const PatientsFeed=document.getElementById('Posts')
 const searchBtn=document.getElementById('searchBtn')
 
 const sizeCount=document.getElementById('sizeCount')
@@ -16,6 +16,7 @@ const dateRegError=document.getElementById('dateRegError')
 const regNewPacBtn=document.getElementById('regNewPacBtn')
 let flagName=false
 let flagbirth=false
+
 
 
 nextPageBtn.style.display='block'
@@ -136,10 +137,10 @@ async function ShowPost(page, size){
     }
     
     if (page !== undefined) {
-        const countPage=localStorage.getItem('countPage')
+        let countPage=localStorage.getItem('countPage')
         if (page>countPage && countPage!==null){
-            query.append('page', countPage)
-            console.log('page>totalPages')
+            query.append('page', 1)
+            console.log(countPage)
         }
         else{
             query.append('page', page)
@@ -153,7 +154,7 @@ async function ShowPost(page, size){
 
     const Token=localStorage.getItem('token');
 
-    Posts.innerHTML = '';
+    PatientsFeed.innerHTML = '';
     const responsePatients=await fetchPatientsList(Token, Url)
     if(window.location.href!=('http://localhost/patients'+`?${query.toString()}`)){
         window.location.href='/patients'+`?${query.toString()}`
@@ -173,6 +174,8 @@ async function AddPosts(response){
         const responsePatient=await fetch('/html-files/pacientCard.html')
         const patientToElement=await responsePatient.text()
 
+        const patientId=patient.id
+        
         const patientElement = document.createElement('div');
 
         const inputDate = patient.birthday.substring(0, 10);
@@ -181,15 +184,23 @@ async function AddPosts(response){
 
         const gender=(patient.gender==="Male"? "Мужской" : "Женский")
 
-
         patientElement.innerHTML=patientToElement
 
-        patientElement.querySelector('#name').textContent+=''+patient.name
+        const Name=document.createElement('a')
+        Name.textContent=patient.name
+        Name.href='/patient'+`?${patientId}`
+
+        Name.style.textDecoration = 'none'
+        Name.style.color = 'inherit'
+
+        const nameElement=patientElement.querySelector('#name')
+        nameElement.innerHTML = ''
+        nameElement.appendChild(Name)
+        
         patientElement.querySelector('#gender').textContent+=''+gender
         patientElement.querySelector('#birthDate').textContent+=''+birthDate
 
-
-        Posts.appendChild(patientElement);
+        PatientsFeed.appendChild(patientElement);
     }
 }
 
