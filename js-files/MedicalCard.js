@@ -60,7 +60,6 @@ const icdRoots = urlParams.get('icdRoots')
 page=parseInt(urlParams.get('page')) || 1
 visitsPerPage.value=urlParams.get('size') || '5'
 
-document.getElementById('mkbSelect').value = icdRoots
 
 const grouped = urlParams.get('grouped');
 if(grouped=='true'){
@@ -89,6 +88,8 @@ responseDiag.forEach(diag => {
 
     mkbSelect.appendChild(option)
 });
+
+document.getElementById('mkbSelect').value = icdRoots
 
 showInsp(page,size)
 
