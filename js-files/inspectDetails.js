@@ -1,5 +1,5 @@
-import { patientList, diagList,inspectionUrl } from "/js-files/RequestURL.js";
-import { fetchPatientCard, fetchPatientInspect, fetchDiagnosis, fetchConcreteInspect } from "/js-files/fetchFunctions.js";
+import { consultUrl,inspectionUrl,profileURL } from "/js-files/RequestURL.js";
+import { fetchGetProfile,fetchConcreteInspect,fetchConcreteConsult,fetchAddComment,fetchEditComment } from "/js-files/fetchFunctions.js";
 
 
 const token=localStorage.getItem('token')
@@ -45,15 +45,117 @@ document.getElementById('recomend').innerHTML+=response.treatment
 document.getElementById('conclus').innerHTML+=conclusVal
 document.getElementById('nextVisit').innerHTML+=dateNextInsp+' '+netxVisTime
 
-async function refactorDate(inputDate){
-    const [year, month, day] = inputDate.split('-')
-    const Date=`${day}.${month}.${year}`
-    
-    return Date
-}
+
 
 const Diags=document.getElementById('Diags')
 const rootComment=response.consultations.rootComment
+const consultList=document.getElementById('consultList')
+for(let i=0; i<response.consultations.length;i++){
+    const consult=response.consultations[i]
+    const consultCard= await fetch('/html-files/consultCard.html')
+    const consultToElement=await consultCard.text()
+
+    const consultId=consult.id
+
+    const consultElement=document.createElement('div')
+    consultElement.innerHTML=consultToElement
+    consultElement.querySelector('#consulName').innerHTML+=consult.speciality.name
+
+    const comments=consultElement.querySelector('#comments')
+    const urlToconsult=consultUrl+'/'+`${consult.id}`
+    
+    const responseConsult=await fetchConcreteConsult(token, urlToconsult)
+
+    for(let i=0; i<responseConsult.comments.length;i++){
+        const comment=responseConsult.comments[i]
+
+        const commentCard= await fetch('/html-files/commentCard.html')
+        const commentToElement=await commentCard.text() 
+        
+        const commentElement=document.createElement('div')
+        commentElement.innerHTML=commentToElement
+        const parentId=comment.id
+
+        const createTime=comment.createTime.substring(12,16)
+        const createDate=await refactorDate(comment.createTime.substring(0, 10))
+
+        const UrlPostComm=consultUrl+'/'+consultId+'/comment'
+        const UrlEditComm=consultUrl+'/'+'comment/'+parentId
+
+        const responseProfile=await fetchGetProfile(token, profileURL)
+        const modTime=comment.modifiedDate.substring(12,16)
+        const modData=await refactorDate(comment.modifiedDate.substring(0, 10))
+        const fullDate=modData+' '+modTime
+
+        if(comment.modifiedDate!=null){
+            const changed=commentElement.querySelector('#changed')
+            changed.style.display='block'
+            changed.addEventListener('mouseover', async function(e){
+                this.textContent = `Последнее изменение: ${fullDate}`
+            })
+            changed.addEventListener('mouseout', async function(e){
+                this.textContent = '(изменено)'
+            })
+        }
+        
+        if(responseProfile.id!=comment.authorId){
+            commentElement.querySelector('#editCommentBtn').style.display='none'
+        }
+        commentElement.querySelector('#authorComment').innerHTML+=comment.author
+        commentElement.querySelector('#comContent').innerHTML+=comment.content
+        commentElement.querySelector('#date').innerHTML+=createDate+' '+createTime
+
+        commentElement.querySelector('#request').addEventListener('click', async function(e){
+            
+            commentElement.querySelector('#requestForm').style.display='block'
+            commentElement.querySelector('#requestFormEdit').style.display='none'
+        })
+
+        commentElement.querySelector('#editCommentBtn').addEventListener('click', async function(e){
+            commentElement.querySelector('#commentInputEdit').value=comment.content
+            commentElement.querySelector('#requestFormEdit').style.display='block'
+            commentElement.querySelector('#requestForm').style.display='none'
+        })
+
+        commentElement.querySelector('#childCreateCommentBtn').addEventListener('click', async function(e){
+            const token=localStorage.getItem('token')
+            if(token){
+                const content=commentElement.querySelector('#commentInput').value
+                const data={
+                    content,
+                    parentId
+                }
+                const GUIDPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+                
+
+                const response=await fetchAddComment(token, UrlPostComm, data)
+                if(GUIDPattern.test(response)){
+                    location.reload()
+                }
+            }
+            
+        })
+
+        commentElement.querySelector('#childCreateCommentBtnEdit').addEventListener('click', async function(e){
+            const token=localStorage.getItem('token')
+            if(token){
+                const content=commentElement.querySelector('#commentInputEdit').value
+                const data={
+                    content
+                }
+
+                const response=await fetchEditComment(token, UrlEditComm, data)
+                if(response=='200'){
+                    location.reload()
+                }
+            }
+        })
+        comments.appendChild(commentElement)
+    }
+
+
+    consultList.appendChild(consultElement)
+}
 for(let i=0; i<response.diagnoses.length;i++){
     const diagnos=response.diagnoses[i]
     const diagCard= await fetch ('/html-files/diagCard.html')
@@ -77,4 +179,10 @@ for(let i=0; i<response.diagnoses.length;i++){
     diagElement.querySelector('#decriptionDiag').innerHTML+=diagnos.description
 
     Diags.appendChild(diagElement)
+}
+async function refactorDate(inputDate){
+    const [year, month, day] = inputDate.split('-')
+    const Date=`${day}.${month}.${year}`
+    
+    return Date
 }

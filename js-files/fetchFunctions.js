@@ -133,3 +133,35 @@ export async function fetchConcreteInspect(token, inspectUrl){
     });
     return response.json()
 }
+export async function fetchConcreteConsult(token, consultUrl){
+    const response= await fetch(consultUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.json()
+}
+export async function fetchAddComment(token, commentUrl, data){
+    const response= await fetch(commentUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    });
+    return response.json()
+}
+export async function fetchEditComment(token, commentUrl, data){
+    const response= await fetch(commentUrl, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    });
+    return response.status
+}
