@@ -1,5 +1,5 @@
 import { profileURL, patientList } from "/js-files/RequestURL.js";
-import { fetchPatientsList,fetchRegPatient } from "/js-files/fetchFunctions.js";
+import { fetchPatientsList,fetchRegPatient, fetchGetProfile, } from "/js-files/fetchFunctions.js";
 
 const PatientsFeed=document.getElementById('Posts')
 const searchBtn=document.getElementById('searchBtn')
@@ -12,6 +12,9 @@ const prevPageBtn=document.getElementById('prevPageBtn')
 const nameRegError=document.getElementById('nameRegError')
 const dateRegError=document.getElementById('dateRegError')
 
+const enterBtn=document.getElementById('enterBtn');
+const headList=document.getElementById('headList');
+const headListBtn=document.getElementById('dropdownMenuButton');
 
 const regNewPacBtn=document.getElementById('regNewPacBtn')
 let flagName=false
@@ -23,6 +26,24 @@ nextPageBtn.style.display='block'
 prevPageBtn.style.display='block'
 
 const token=localStorage.getItem('token')
+
+if(token){
+    headList.style.display='block'
+    headListBtn.style.display='block'
+    enterBtn.style.display='none'
+
+    const profileDataName=await fetchGetProfile(token,profileURL);
+
+    if (!profileDataName){
+        localStorage.clear();
+        window.location.href='/login'
+    }
+    else{
+        headListBtn.textContent = profileDataName.name;
+    }
+
+}
+
 const sizeNum=sizeCount.value
 let page=1
 let size;

@@ -93,6 +93,9 @@ document.getElementById('mkbSelect').value = icdRoots
 
 showInsp(page,size)
 
+addInspBtn.addEventListener('click', async function(event){
+    window.location.href='/inspection/create'
+})
 nextPageBtn.addEventListener('click', async function(event){
     if(page<totalPages){
         page+=1
