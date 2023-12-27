@@ -123,3 +123,13 @@ export async function fetchDiagnosis(diagUrl){
     });
     return response.json()
 }
+export async function fetchConcreteInspect(token, inspectUrl){
+    const response= await fetch(inspectUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.json()
+}
