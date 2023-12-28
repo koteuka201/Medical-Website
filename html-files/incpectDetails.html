@@ -14,7 +14,7 @@
             <div class="card-body">
                 <div class="col-md-12 row justify-content-between">
                     <h2 class="col-md-8 fw-bold fs-4" id="inspectTitle">Амбулаторный осмотр от </h2>
-                    <button class="btn btn-primary col-md-2">Редактировать</button>
+                    <button class="btn btn-primary col-md-2" data-bs-toggle="modal" data-bs-target="#registrationModal">Редактировать</button>
                 </div>
                 <div id="pacientName" class="fw-bold">
                     Пациент:
@@ -27,6 +27,96 @@
                 </div>
                 <div id="doctor" style="opacity: 0.7;">
                     Медицинский работник: 
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+                                <div >
+                                    <h5 class="card-title text-primary">Жалобы</h5>
+                                    <textarea class="form-control" id="complaints" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+                                <div >
+                                    <h5 class="card-title text-primary">Анамнез заболевания</h5>
+                                    <textarea class="form-control" id="Anamnez" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+                                <div id="prevDiag">
+                
+                
+                                </div>
+                                <h5 class="card-title text-primary">Диагнозы</h5>
+                                <div>
+                                    <span style="opacity: 0.7;">Болезни</span>
+                                </div>
+                                <select class="form-control" id="diagnos">
+                                    <option value="">Диагнозы</option>
+                                </select>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="grouping" id="mainCheck">
+                                            <label class="form-check-label" for="mainCheck">Основной</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="grouping" id="relatedCheck">
+                                            <label class="form-check-label" for="relatedCheck">Сопутствующий</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="grouping" id="complicationCheck">
+                                            <label class="form-check-label" for="complicationCheck">Осложнение</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mt-2" id="addDiagnosisBtn"><i class="bi bi-plus"></i>Добавить диагноз</button>
+                            </div>
+                        </div>
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Рекомендации по лечению</h5>
+                                <textarea class="form-control" id="recomendationCure" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Заключение</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mt-1">
+                                        <label class="form-label" for="conclusions2" style="opacity: 0.7;">Заключение</label>
+                                        <select class="form-control" id="conclusions2">
+                                            <option value="Recovery">Выздоровление</option>
+                                            <option value="Disease">Болезнь</option>
+                                            <option value="Death">Смерть</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <label for="conclusDate" class="col-form-label">Дата следующего визита</label>
+                                        <input class="form-control" type="datetime-local" id="conclusDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button class="btn btn-primary me-2">Сохранить изменения</button>
+                            <button class="btn btn-secondary">Отмена</button>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

@@ -20,6 +20,7 @@ const inputDate =await refactorDate(response.patient.birthday.substring(0, 10))
 const inputTime =await refactorDate(response.createTime.substring(0, 10))
 const dateNextInsp=await refactorDate(response.nextVisitDate.substring(0, 10))
 
+
 const time=response.createTime.substring(12,16)
 const netxVisTime=response.nextVisitDate.substring(12,16)
 const conclus=response.conclusion
@@ -44,6 +45,14 @@ document.getElementById('anamnez').innerHTML+=response.anamnesis
 document.getElementById('recomend').innerHTML+=response.treatment
 document.getElementById('conclus').innerHTML+=conclusVal
 document.getElementById('nextVisit').innerHTML+=dateNextInsp+' '+netxVisTime
+
+document.getElementById('complaints').value=response.complaints
+document.getElementById('Anamnez').value=response.anamnesis
+document.getElementById('recomendationCure').value=response.treatment
+document.getElementById('conclusions2').value=response.conclusion
+document.getElementById('conclusDate').value=response.nextVisitDate.slice(0, 16);
+
+
 
 
 
@@ -78,7 +87,7 @@ for(let i=0; i<response.consultations.length;i++){
         commentElement.innerHTML=commentToElement
         const parentId=comment.id
 
-        const createTime=comment.createTime.substring(12,16)
+        const createTime=comment.createTime.substring(11,19)
         const createDate=await refactorDate(comment.createTime.substring(0, 10))
 
         const UrlPostComm=consultUrl+'/'+consultId+'/comment'
@@ -141,16 +150,21 @@ for(let i=0; i<response.consultations.length;i++){
             const token=localStorage.getItem('token')
             if(token){
                 const content=commentElement.querySelector('#commentInput').value
-                const data={
-                    content,
-                    parentId
+                if(content!=''){
+                    const data={
+                        content,
+                        parentId
+                    }
+                    const GUIDPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+                    
+    
+                    const response=await fetchAddComment(token, UrlPostComm, data)
+                    if(GUIDPattern.test(response)){
+                        location.reload()
+                    }
                 }
-                const GUIDPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-                
-
-                const response=await fetchAddComment(token, UrlPostComm, data)
-                if(GUIDPattern.test(response)){
-                    location.reload()
+                else{
+                    commentElement.querySelector('#childCommentError').style.display='block'
                 }
             }
             
@@ -160,14 +174,20 @@ for(let i=0; i<response.consultations.length;i++){
             const token=localStorage.getItem('token')
             if(token){
                 const content=commentElement.querySelector('#commentInputEdit').value
-                const data={
-                    content
+                if(content!=''){
+                    const data={
+                        content
+                    }
+    
+                    const response=await fetchEditComment(token, UrlEditComm, data)
+                    if(response=='200'){
+                        location.reload()
+                    }
                 }
-
-                const response=await fetchEditComment(token, UrlEditComm, data)
-                if(response=='200'){
-                    location.reload()
+                else{
+                    commentElement.querySelector('#childEditCommentError').style.display='block'
                 }
+                
             }
         })
         if(comment.parentId!=null){
