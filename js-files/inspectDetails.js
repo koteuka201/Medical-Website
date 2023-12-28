@@ -62,6 +62,8 @@ for(let i=0; i<response.consultations.length;i++){
     consultElement.querySelector('#consulName').innerHTML+=consult.speciality.name
 
     const comments=consultElement.querySelector('#comments')
+    const subComment=consultElement.querySelector('#subComments')
+
     const urlToconsult=consultUrl+'/'+`${consult.id}`
     
     const responseConsult=await fetchConcreteConsult(token, urlToconsult)
@@ -83,11 +85,16 @@ for(let i=0; i<response.consultations.length;i++){
         const UrlEditComm=consultUrl+'/'+'comment/'+parentId
 
         const responseProfile=await fetchGetProfile(token, profileURL)
-        const modTime=comment.modifiedDate.substring(12,16)
+        const modTime=comment.modifiedDate.substring(11,19)
         const modData=await refactorDate(comment.modifiedDate.substring(0, 10))
         const fullDate=modData+' '+modTime
 
-        if(comment.modifiedDate!=null){
+        commentElement.querySelector('#authorComment').innerHTML+=comment.author
+        commentElement.querySelector('#comContent').innerHTML+=comment.content
+        commentElement.querySelector('#date').innerHTML+=createDate+' '+createTime
+
+
+        if(comment.modifiedDate!=comment.createTime){
             const changed=commentElement.querySelector('#changed')
             changed.style.display='block'
             changed.addEventListener('mouseover', async function(e){
@@ -101,9 +108,8 @@ for(let i=0; i<response.consultations.length;i++){
         if(responseProfile.id!=comment.authorId){
             commentElement.querySelector('#editCommentBtn').style.display='none'
         }
-        commentElement.querySelector('#authorComment').innerHTML+=comment.author
-        commentElement.querySelector('#comContent').innerHTML+=comment.content
-        commentElement.querySelector('#date').innerHTML+=createDate+' '+createTime
+
+        
 
         commentElement.querySelector('#request').addEventListener('click', async function(e){
             
@@ -115,6 +121,20 @@ for(let i=0; i<response.consultations.length;i++){
             commentElement.querySelector('#commentInputEdit').value=comment.content
             commentElement.querySelector('#requestFormEdit').style.display='block'
             commentElement.querySelector('#requestForm').style.display='none'
+        })
+
+        commentElement.querySelector('#openSubs').addEventListener('click', async function(e){
+            subComment.style.display='block'
+            commentElement.querySelector('#openSubs').style.display='none'
+            commentElement.querySelector('#closeSubs').style.display='block'            
+
+        })
+
+        commentElement.querySelector('#closeSubs').addEventListener('click', async function(e){
+            subComment.style.display='none'
+            commentElement.querySelector('#openSubs').style.display='block'
+            commentElement.querySelector('#closeSubs').style.display='none'
+
         })
 
         commentElement.querySelector('#childCreateCommentBtn').addEventListener('click', async function(e){
@@ -150,7 +170,12 @@ for(let i=0; i<response.consultations.length;i++){
                 }
             }
         })
-        comments.appendChild(commentElement)
+        if(comment.parentId!=null){
+            subComment.appendChild(commentElement)
+        }
+        else{
+            comments.appendChild(commentElement)
+        }
     }
 
 
