@@ -165,3 +165,12 @@ export async function fetchEditComment(token, commentUrl, data){
     });
     return response.status
 }
+export async function fetchDiagnosIcd(token, diagsListUrl){
+    const response=await fetch(diagsListUrl,{
+        method: 'GET',
+        headers:{
+            'Content-Type':'application/json',
+        }
+    })
+    return response.json()
+}

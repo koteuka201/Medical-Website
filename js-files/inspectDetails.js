@@ -1,5 +1,5 @@
-import { consultUrl,inspectionUrl,profileURL } from "/js-files/RequestURL.js";
-import { fetchGetProfile,fetchConcreteInspect,fetchConcreteConsult,fetchAddComment,fetchEditComment } from "/js-files/fetchFunctions.js";
+import { diagsListUrl, consultUrl,inspectionUrl,profileURL } from "/js-files/RequestURL.js";
+import {fetchDiagnosIcd, fetchGetProfile,fetchConcreteInspect,fetchConcreteConsult,fetchAddComment,fetchEditComment } from "/js-files/fetchFunctions.js";
 
 
 const token=localStorage.getItem('token')
@@ -53,9 +53,83 @@ document.getElementById('conclusions2').value=response.conclusion
 document.getElementById('conclusDate').value=response.nextVisitDate.slice(0, 16);
 
 
+// const data=await fetchDiagnosIcd(token, diagsListUrl)
+// async function GetDiags(){
+//     let diagList=document.getElementById('diagnos')
+//     const data=await fetchDiagnosIcd(token, diagsListUrl)
+//     $(diagList).select2({
+//         ajax: {
+//             url: `${diagsListUrl}`,
+//             type: 'GET',
+//             dataType: 'json',
+//             data: function (params) {
+//                 return {
+//                     request: params.term,
+//                     page: 1,
+//                     size: 5
+//                 };
+//             },
+//             processResults: function (data) {
+//                 data.records.unshift({text: 'Не выбрано', id: ""});
+//                 return {
+//                     results: data.records.map(item => ({
+//                         text: item.name,
+//                         id: item.id,
+//                     }))
+//                 };
+//             },
+//             cache: true
+//         },
+//         placeholder: 'Выберите объект'
+//     });
+//     $(diagList).on('change', function () {
+//         const selectedData = $(this).select2('data')[0];
+//     });
+// }
+async function GetDiags(){
 
+    let diagList=document.getElementById('diagnos')
 
+    const data=await fetchDiagnosIcd(token, diagsListUrl)
+    $(diagList).select2({
+        ajax:{
+            url: `${diagsListUrl}`,
+            type: 'GET',
+            dataType: 'json',
+            data: function (params){
+                return {
+                    name: params.term,
+                    page:1,
+                    size: 5
+                };
+            },
+            processResults: function(data){
+                data.records.unshift({text:'ек выбрано',id: ''})
+                return{
+                    results: data.records.map(item=>({
+                        text: item.name,
+                        id: item.id,
+                    }))
+                }
+            },
+            cache: true
+        },
+        placeholder:'выберите объект'
+    })
+    $(diagList).on('change', function(){
+        const selectedObj=$(this).select2('data')[0]
+    })
+}
+// $('#diagnos').select2({
+//     dropdownParent: ('#registrationModal')
+// });
+$(document).ready(function(){
+    $('#diagnos').select2({
+        dropdownParent: ('#registrationModal')
+    });
+})
 
+await GetDiags()
 const Diags=document.getElementById('Diags')
 const rootComment=response.consultations.rootComment
 const consultList=document.getElementById('consultList')
@@ -191,7 +265,9 @@ for(let i=0; i<response.consultations.length;i++){
             }
         })
         if(comment.parentId!=null){
+            commentElement.querySelector('#subsBtn').style.display='none'
             subComment.appendChild(commentElement)
+
         }
         else{
             comments.appendChild(commentElement)
