@@ -35,9 +35,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <select class="form-control" id="diagnos">
-                            
-                        </select>
+                        
                         <div class="card mt-3 bg-body-secondary">
                             <div class="card-body">
                                 <div >
@@ -56,38 +54,39 @@
                         </div>
                         <div class="card mt-3 bg-body-secondary">
                             <div class="card-body">
-                                <!-- <div id="prevDiag">
-                
-                
-                                </div> -->
+
                                 <h5 class="card-title text-primary">Диагнозы</h5>
                                 <div>
                                     <span style="opacity: 0.7;">Болезни</span>
                                 </div>
                                 <div>
-                                    <!-- <select class="form-control" id="diagnos"></select> -->
+                                    <select class="form-control" id="diagnos"></select>
                                 </div>
+                                <input class="form-control mt-2" id="descriptionDiag" placeholder="Введите значение">
+
                                 <div class="row mt-3">
                                     <div class="col-md-4">
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="grouping" id="mainCheck">
-                                            <label class="form-check-label" for="mainCheck">Основной</label>
+                                        <div class="form-check form-check-inline" id="mainForm">
+                                            <input class="form-check-input" type="radio" name="grouping" id="Main">
+                                            <label class="form-check-label" for="Main">Основной</label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="grouping" id="relatedCheck">
-                                            <label class="form-check-label" for="relatedCheck">Сопутствующий</label>
+                                            <input class="form-check-input" type="radio" name="grouping" id="Concomitant">
+                                            <label class="form-check-label" for="Concomitant">Сопутствующий</label>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="grouping" id="complicationCheck">
-                                            <label class="form-check-label" for="complicationCheck">Осложнение</label>
+                                            <input class="form-check-input" type="radio" name="grouping" id="Complication">
+                                            <label class="form-check-label" for="Complication">Осложнение</label>
                                         </div>
                                     </div>
                                 </div>
                                 <button class="btn btn-primary mt-2" id="addDiagnosisBtn"><i class="bi bi-plus"></i>Добавить диагноз</button>
+                                <small id="addIzmError" class="text-danger" style="display: none;">Заполните все поля</small>
+
                             </div>
                         </div>
                         <div class="card mt-3 bg-body-secondary">
@@ -109,16 +108,28 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6 ">
-                                        <label for="conclusDate" class="col-form-label">Дата следующего визита</label>
+                                        <div id="concForm">
+                                            <label for="conclusDate" class="col-form-label">Дата следующего визита</label>
+                                        </div>
+                                        
+
+                                        <div id="deaForm" style="display: none;">
+                                            <label for="conclusDate" class="col-form-label">Дата смерти</label>
+                                        </div>
                                         <input class="form-control" type="datetime-local" id="conclusDate">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex justify-content-center mt-2">
-                            <button class="btn btn-primary me-2">Сохранить изменения</button>
-                            <button class="btn btn-secondary">Отмена</button>
+                            <button class="btn btn-primary me-2" id="saveIzm">Сохранить изменения</button>
+                            <button class="btn btn-secondary" id="cancel">Отмена</button>
                         </div>
+                        <div class="text-center mt-2">
+                            <small id="saveIzmError" class="text-danger" style="display: none;">Заполните все поля</small>
+
+                        </div>
+
                     </div>
                     
                 </div>
@@ -167,9 +178,12 @@
         <div class="card bg-body-secondary mt-3">
             <div class="card-body">
                 <h5 class="card-title text-primary">Заключение</h5>
-                <div id="conclus"></div>
+                <div class="fw-bold" id="conclus"  ></div>
                 <div id="nextVisit">
                     Дата следующего визита:
+                </div>
+                <div id="deathTime" style="display: none;">
+                    Дата смерти:
                 </div>
                 <span id="time"></span>
             </div>

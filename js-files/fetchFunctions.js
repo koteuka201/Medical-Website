@@ -174,3 +174,23 @@ export async function fetchDiagnosIcd(token, diagsListUrl){
     })
     return response.json()
 }
+export async function fetchEditConsult(token, consultUrl,data){
+    const response= await fetch(consultUrl, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    });
+    return response.json()
+}
+export async function fetchIcd(icdUrl){
+    const response= await fetch(icdUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    return response.json()
+}

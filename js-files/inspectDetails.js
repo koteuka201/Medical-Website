@@ -1,5 +1,5 @@
-import { diagsListUrl, consultUrl,inspectionUrl,profileURL } from "/js-files/RequestURL.js";
-import {fetchDiagnosIcd, fetchGetProfile,fetchConcreteInspect,fetchConcreteConsult,fetchAddComment,fetchEditComment } from "/js-files/fetchFunctions.js";
+import { diagsIcdListUrl, diagsListUrl, consultUrl,inspectionUrl,profileURL } from "/js-files/RequestURL.js";
+import {fetchIcd, fetchEditConsult, fetchDiagnosIcd, fetchGetProfile,fetchConcreteInspect,fetchConcreteConsult,fetchAddComment,fetchEditComment } from "/js-files/fetchFunctions.js";
 
 
 const token=localStorage.getItem('token')
@@ -18,21 +18,35 @@ const gender=(response.patient.gender==="Male"? "Мужской" : "Женски
 
 const inputDate =await refactorDate(response.patient.birthday.substring(0, 10))
 const inputTime =await refactorDate(response.createTime.substring(0, 10))
-const dateNextInsp=await refactorDate(response.nextVisitDate.substring(0, 10))
+if(response.nextVisitDate){
+    const dateNextInsp=await refactorDate(response.nextVisitDate.substring(0, 10))
+    const netxVisTime=response.nextVisitDate.substring(11,16)
+    document.getElementById('nextVisit').innerHTML+=dateNextInsp+' '+netxVisTime
+    document.getElementById('conclusDate').value=response.nextVisitDate.slice(0, 16);
+
+}
+if(response.deathDate){
+    const dateNextInsp=await refactorDate(response.deathDate.substring(0, 10))
+    const netxVisTime=response.deathDate.substring(11,16)
+    document.getElementById('deathTime').innerHTML+=dateNextInsp+' '+netxVisTime
+    document.getElementById('conclusDate').value=response.deathDate.slice(0, 16);
+}
 
 
-const time=response.createTime.substring(12,16)
-const netxVisTime=response.nextVisitDate.substring(12,16)
+const time=response.createTime.substring(11,16)
 const conclus=response.conclusion
 let conclusVal
 
 switch (conclus){
     case 'Disease':
         conclusVal='Болезнь'
+        break
     case 'Death':
         conclusVal='Смерть'
+        break
     case 'Recovery':
         conclusVal='Выздоровление'
+        break
 }
 
 document.getElementById('pacientName').innerHTML+=response.patient.name
@@ -44,48 +58,44 @@ document.getElementById('complaint').innerHTML+=response.complaints
 document.getElementById('anamnez').innerHTML+=response.anamnesis
 document.getElementById('recomend').innerHTML+=response.treatment
 document.getElementById('conclus').innerHTML+=conclusVal
-document.getElementById('nextVisit').innerHTML+=dateNextInsp+' '+netxVisTime
 
 document.getElementById('complaints').value=response.complaints
 document.getElementById('Anamnez').value=response.anamnesis
 document.getElementById('recomendationCure').value=response.treatment
 document.getElementById('conclusions2').value=response.conclusion
-document.getElementById('conclusDate').value=response.nextVisitDate.slice(0, 16);
 
+if(response.conclusion=='Death'){
+    document.getElementById('nextVisit').style.display='none'
+    document.getElementById('deathTime').style.display='block'
+}
+let diagnoses=[]
+for(let i=0; i<response.diagnoses.length;i++){
+    const diagnos=response.diagnoses[i]
+    const urltoIcd=diagsIcdListUrl+diagnos.code+'&page=1&size=1'
+    const code=await fetchIcd(urltoIcd)
+    const icdDiagnosisId=code.records[0].id
+    const type=diagnos.type
+    const description=diagnos.description
+    if(type=='Main'){
+        document.getElementById('mainForm').style.display='none'
+    }
+    const value={
+        icdDiagnosisId,
+        description,
+        type
+        
+    }
+    diagnoses.push(value)
+}
+let type;
+let newDiag
+document.getElementById('conclusions2').addEventListener('change', async function(e){
+    if(document.getElementById('conclusions2').value=='Death'){
+        document.getElementById('concForm').style.display='none'
+        document.getElementById('deaForm').style.display='block'
+    }
+})
 
-// const data=await fetchDiagnosIcd(token, diagsListUrl)
-// async function GetDiags(){
-//     let diagList=document.getElementById('diagnos')
-//     const data=await fetchDiagnosIcd(token, diagsListUrl)
-//     $(diagList).select2({
-//         ajax: {
-//             url: `${diagsListUrl}`,
-//             type: 'GET',
-//             dataType: 'json',
-//             data: function (params) {
-//                 return {
-//                     request: params.term,
-//                     page: 1,
-//                     size: 5
-//                 };
-//             },
-//             processResults: function (data) {
-//                 data.records.unshift({text: 'Не выбрано', id: ""});
-//                 return {
-//                     results: data.records.map(item => ({
-//                         text: item.name,
-//                         id: item.id,
-//                     }))
-//                 };
-//             },
-//             cache: true
-//         },
-//         placeholder: 'Выберите объект'
-//     });
-//     $(diagList).on('change', function () {
-//         const selectedData = $(this).select2('data')[0];
-//     });
-// }
 async function GetDiags(){
 
     let diagList=document.getElementById('diagnos')
@@ -101,6 +111,7 @@ async function GetDiags(){
                     name: params.term,
                     page:1,
                     size: 5
+                    
                 };
             },
             processResults: function(data){
@@ -114,22 +125,93 @@ async function GetDiags(){
             },
             cache: true
         },
-        placeholder:'выберите объект'
+        
+        placeholder:'выберите объект',
+        dropdownParent: $('#registrationModal')
     })
+    
     $(diagList).on('change', function(){
         const selectedObj=$(this).select2('data')[0]
     })
 }
-// $('#diagnos').select2({
-//     dropdownParent: ('#registrationModal')
-// });
+
 $(document).ready(function(){
     $('#diagnos').select2({
-        dropdownParent: ('#registrationModal')
+        dropdownParent: $('#registrationModal')          
     });
 })
 
 await GetDiags()
+
+document.getElementById('cancel').addEventListener('click', async function(e){
+    // $('#registrationModal').on('hidden.bs.modal', function (e) {
+    //     $('.modal-backdrop').hide(); // Удаление фона модального окна // Закрытие и удаление модального окна
+
+    // });
+    // $('#registrationModal').modal('hide');
+})
+
+document.getElementById('addDiagnosisBtn').addEventListener('click', async function(e){
+    const radioButtons = document.querySelectorAll('input[name="grouping"]:checked');
+    let selectedValue = '';
+    radioButtons.forEach(button => {
+        if (button.checked) {
+            selectedValue = button.id;
+        }
+    });
+    type=selectedValue
+    const icdDiagnosisId=document.getElementById('diagnos').value
+    const description=document.getElementById('descriptionDiag').value
+    
+    if(type!='' && description!='' && icdDiagnosisId!=''){
+        document.getElementById('addIzmError').style.display='none'
+        newDiag={
+            icdDiagnosisId,
+            description,
+            type
+        }
+        diagnoses.push(newDiag);
+
+    }
+    else{
+        document.getElementById('addIzmError').style.display='block'
+    }
+})
+document.getElementById('saveIzm').addEventListener('click', async function(e){
+    const complaints=document.getElementById('complaints').value
+    const anamnesis=document.getElementById('Anamnez').value
+    const treatment=document.getElementById('recomendationCure').value
+    const conclusion=document.getElementById('conclusions2').value
+    let nextVisitDate=document.getElementById('conclusDate').value
+    let deathDate;
+    if (conclusion=='Death'){
+        deathDate=nextVisitDate
+        nextVisitDate=undefined
+    }
+    else{
+        deathDate=undefined
+    }
+    if(complaints!='' && anamnesis!='' && treatment!=''  && conclusDate!=''){
+        const data={
+            anamnesis,
+            complaints,
+            treatment,
+            conclusion,
+            nextVisitDate,
+            deathDate,
+            diagnoses
+        }
+        const response=await fetchEditConsult(token, urlTOreq,data)
+        location.reload()
+
+
+    }
+    else{
+        document.getElementById('saveIzmError').style.display='block'
+    }
+
+
+})
 const Diags=document.getElementById('Diags')
 const rootComment=response.consultations.rootComment
 const consultList=document.getElementById('consultList')
