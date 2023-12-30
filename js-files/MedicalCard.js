@@ -191,7 +191,22 @@ async function AddInsp(Inspects){
             addInsp.style.display='none'
             addInspBtn.style.display='none'
         }
+
+        const linkInsp=document.createElement('a')
+        linkInsp.textContent='Детали осмотра'
+        linkInsp.href='/inspection'+`?${inspect.id}`
         
+        const icon = document.createElement('i');
+
+        icon.className="me-1 bi bi-search"
+
+        linkInsp.style.textDecoration='none'
+        linkInsp.style.color = 'inherit'
+
+        details.innerHTML=''
+        details.appendChild(icon)
+        details.appendChild(linkInsp)
+
         inspectElement.querySelector('#date').textContent+=''+createTime
         inspectElement.querySelector('#conclision').textContent+='Заключение: '+conclus
         inspectElement.querySelector('#mainDiag').textContent+='Основной диагноз: '+inspect.diagnosis.name
