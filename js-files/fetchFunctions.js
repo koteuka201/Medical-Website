@@ -194,3 +194,13 @@ export async function fetchIcd(icdUrl){
     });
     return response.json()
 }
+export async function fetchInspects(token, consultUrl){
+    const response= await fetch(consultUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.json()
+}
