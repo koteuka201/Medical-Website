@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script></head>
+<body>
+    <div class="container col-sm-6 mt-4">
+        <div class="card bg-body-secondary">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="name" class="col-sm-2 col-form-label">ФИО</label>
+                    <div class="col-sm-12">
+                        <input type="input" class="form-control" id="name">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="gender" class="col-sm-2 col-form-label">Пол</label>
+                            <select class="form-select" id="gender">
+                                <option value="male">Мужской</option>
+                                <option value="female">Женский</option>
+                            </select>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div>
+                            <label for="datebirth" class="col-sm-12 col-form-label">Дата рождения</label>
+                            <input type="date" class="form-control" id="datebirth">
+                            <small id="dateError" class="text-danger" style="display: none;">Недопустимое значение даты рождения (пользователь должен быть старше 14 лет)</small>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="mb-3 ">
+                    
+                    <div class="col-sm-12">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <input type="email" class="form-control" id="email">
+                        <small id="mailError" class="text-danger" style="display: none;">Неверный формат email (example@mail.ru)</small>
+                    </div>
+                </div>
+                <div class="mb-3 ">
+                    <label for="phone" class="col-sm-2 col-form-label">Номер телефона</label>
+                    <div class="col-sm-12">
+                        <input type="input" class="form-control" id="phone">
+                        <small id="phoneError" class="text-danger" style="display: none;">Неверный формат номера (используйте маску +7xxxxxxxxxx)</small>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary" id="saveProfileBtn">Сохранить</button>
+                </div>
+                <div>
+                    <small id="saveError" class="text-danger" style="display: none;">Проверьте правильность введенных данных</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script type="module" src="/js-files/Profile.js"></script>
+</body>
+</html>

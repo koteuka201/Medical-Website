@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script></head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="container">
+        <div class="card bg-body-secondary mt-3">
+            <div class="card-body">
+                <div class="col-md-12 row justify-content-between">
+                    <h2 class="col-md-8 fw-bold fs-4" id="inspectTitle">Амбулаторный осмотр от </h2>
+                    <button class="btn btn-primary col-md-2" data-bs-toggle="modal" data-bs-target="#registrationModal">Редактировать</button>
+                </div>
+                <div id="pacientName" class="fw-bold">
+                    Пациент:
+                </div>
+                <div id="gender">
+                    Пол:
+                </div>
+                <div id="birthDate">
+                    Дата рождение:
+                </div>
+                <div id="doctor" style="opacity: 0.7;">
+                    Медицинский работник: 
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+                                <div >
+                                    <h5 class="card-title text-primary">Жалобы</h5>
+                                    <textarea class="form-control" id="complaints" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+                                <div >
+                                    <h5 class="card-title text-primary">Анамнез заболевания</h5>
+                                    <textarea class="form-control" id="Anamnez" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+
+                                <h5 class="card-title text-primary">Диагнозы</h5>
+                                <div>
+                                    <span style="opacity: 0.7;">Болезни</span>
+                                </div>
+                                <div>
+                                    <select class="form-control" id="diagnos"></select>
+                                </div>
+                                <input class="form-control mt-2" id="descriptionDiag" placeholder="Введите значение">
+
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <div class="form-check form-check-inline" id="mainForm">
+                                            <input class="form-check-input" type="radio" name="grouping" id="Main">
+                                            <label class="form-check-label" for="Main">Основной</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="grouping" id="Concomitant">
+                                            <label class="form-check-label" for="Concomitant">Сопутствующий</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="grouping" id="Complication">
+                                            <label class="form-check-label" for="Complication">Осложнение</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mt-2" id="addDiagnosisBtn"><i class="bi bi-plus"></i>Добавить диагноз</button>
+                                <small id="addIzmError" class="text-danger" style="display: none;">Заполните все поля</small>
+
+                            </div>
+                        </div>
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Рекомендации по лечению</h5>
+                                <textarea class="form-control" id="recomendationCure" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="card mt-3 bg-body-secondary">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">Заключение</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mt-1">
+                                        <label class="form-label" for="conclusions2" style="opacity: 0.7;">Заключение</label>
+                                        <select class="form-control" id="conclusions2">
+                                            <option value="Recovery">Выздоровление</option>
+                                            <option value="Disease">Болезнь</option>
+                                            <option value="Death">Смерть</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        <div id="concForm">
+                                            <label for="conclusDate" class="col-form-label">Дата следующего визита</label>
+                                        </div>
+                                        
+
+                                        <div id="deaForm" style="display: none;">
+                                            <label for="conclusDate" class="col-form-label">Дата смерти</label>
+                                        </div>
+                                        <input class="form-control" type="datetime-local" id="conclusDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <button class="btn btn-primary me-2" id="saveIzm">Сохранить изменения</button>
+                            <button class="btn btn-secondary" id="cancel">Отмена</button>
+                        </div>
+                        <div class="text-center mt-2">
+                            <small id="saveIzmError" class="text-danger" style="display: none;">Заполните все поля</small>
+
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="card bg-body-secondary mt-3">
+            <div class="card-body">
+                <h5 class="card-title text-primary">Жалобы</h5>
+                <span id="complaint"></span>
+            </div>
+        </div>
+        <div class="card bg-body-secondary mt-3">
+            <div class="card-body">
+                <h5 class="card-title text-primary">Анамнез заболевания</h5>
+                <span id="anamnez"></span>
+            </div>
+        </div>
+        <div class="card bg-body-secondary mt-3">
+            <div class="card-body">
+                <h5 class="card-title text-primary">Консультация</h5>
+                <span id="consul"></span>
+                <div id="consultList"></div>
+                <div id="comments">
+                    <div class="" id="subComments">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-body-secondary mt-3">
+            <div class="card-body" >
+
+                <h5 class="card-title text-primary">Диагнозы</h5>
+                <div id='Diags'>
+
+                </div>
+            </div>
+        </div>
+        <div class="card bg-body-secondary mt-3">
+            <div class="card-body">
+                <h5 class="card-title text-primary">Рекомендации по лечению</h5>
+                <span id="recomend"></span>
+            </div>
+
+        </div>
+        <div class="card bg-body-secondary mt-3">
+            <div class="card-body">
+                <h5 class="card-title text-primary">Заключение</h5>
+                <div class="fw-bold" id="conclus"  ></div>
+                <div id="nextVisit">
+                    Дата следующего визита:
+                </div>
+                <div id="deathTime" style="display: none;">
+                    Дата смерти:
+                </div>
+                <span id="time"></span>
+            </div>
+            
+        </div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<!-- <script type="module" src="/js-files/routing.js"></script> -->
+<script type="module" src="/js-files/inspectDetails.js"></script>
+</body>
+</html>
