@@ -1,5 +1,5 @@
 const phoneInput = document.getElementById('phoneInput');
-
+//hotfix
 phoneInput.addEventListener('input', function(event) {
     let inputValue = event.target.value.replace(/\D/g, '').substring(0, 11);
     let formattedValue = '';
