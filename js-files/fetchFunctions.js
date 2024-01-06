@@ -204,3 +204,25 @@ export async function fetchInspects(token, consultUrl){
     });
     return response.json()
 }
+export async function fetchInspectsOfPatient(token, consultUrl){
+    const response= await fetch(consultUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+    });
+    return response.json()
+}
+export async function fetchCreatePatient(token, consultUrl,data){
+    const response= await fetch(consultUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,          
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+
+    });
+    return response.json()
+}

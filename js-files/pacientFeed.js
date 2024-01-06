@@ -198,30 +198,59 @@ async function AddPosts(response){
         const patientId=patient.id
         
         const patientElement = document.createElement('div');
+        if(patient.birthday==null){
+            const birthday='1999-10-10'
 
-        const inputDate = patient.birthday.substring(0, 10);
-        const [year, month, day] = inputDate.split('-');
-        const birthDate=`${day}.${month}.${year}`;
+            const inputDate = birthday.substring(0, 10);
+            const [year, month, day] = inputDate.split('-');
+            const birthDate=`${day}.${month}.${year}`;
 
-        const gender=(patient.gender==="Male"? "Мужской" : "Женский")
+            const gender=(patient.gender==="Male"? "Мужской" : "Женский")
 
-        patientElement.innerHTML=patientToElement
+            patientElement.innerHTML=patientToElement
 
-        const Name=document.createElement('a')
-        Name.textContent=patient.name
-        Name.href='/patient'+`?${patientId}`
+            const Name=document.createElement('a')
+            Name.textContent=patient.name
+            Name.href='/patient'+`?${patientId}`
 
-        Name.style.textDecoration = 'none'
-        Name.style.color = 'inherit'
+            Name.style.textDecoration = 'none'
+            Name.style.color = 'inherit'
 
-        const nameElement=patientElement.querySelector('#name')
-        nameElement.innerHTML = ''
-        nameElement.appendChild(Name)
+            const nameElement=patientElement.querySelector('#name')
+            nameElement.innerHTML = ''
+            nameElement.appendChild(Name)
+            
+            patientElement.querySelector('#gender').textContent+=''+gender
+            patientElement.querySelector('#birthDate').textContent+=''+birthDate
+
+            PatientsFeed.appendChild(patientElement);
+        }
+        else{
+            const inputDate = patient.birthday.substring(0, 10);
+            const [year, month, day] = inputDate.split('-');
+            const birthDate=`${day}.${month}.${year}`;
+
+            const gender=(patient.gender==="Male"? "Мужской" : "Женский")
+
+            patientElement.innerHTML=patientToElement
+
+            const Name=document.createElement('a')
+            Name.textContent=patient.name
+            Name.href='/patient'+`?${patientId}`
+
+            Name.style.textDecoration = 'none'
+            Name.style.color = 'inherit'
+
+            const nameElement=patientElement.querySelector('#name')
+            nameElement.innerHTML = ''
+            nameElement.appendChild(Name)
+            
+            patientElement.querySelector('#gender').textContent+=''+gender
+            patientElement.querySelector('#birthDate').textContent+=''+birthDate
+
+            PatientsFeed.appendChild(patientElement);
+        }
         
-        patientElement.querySelector('#gender').textContent+=''+gender
-        patientElement.querySelector('#birthDate').textContent+=''+birthDate
-
-        PatientsFeed.appendChild(patientElement);
     }
 }
 
